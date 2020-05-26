@@ -4,7 +4,7 @@ defmodule Brains.MixProject do
   def project do
     [
       app: :brains,
-      version: "0.1.1",
+      version: "0.1.2",
       elixir: "~> 1.10",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
@@ -31,7 +31,7 @@ defmodule Brains.MixProject do
   defp deps do
     [
       {:tesla, "~> 1.3"},
-      {:poison, "~> 4.0", optional: true},
+      {:poison, ">= 3.0.0 and < 5.0.0"},
 
       # Quality-related
       {:dialyxir, "~> 1.0", only: [:dev], runtime: false},
