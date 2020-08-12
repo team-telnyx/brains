@@ -29,7 +29,7 @@ defmodule Brains.Response do
 
   def decode({:ok, %Tesla.Env{body: body} = env}, opts) do
     case do_decode(body, opts) do
-      {:ok, new_body} -> %{env | body: new_body}
+      {:ok, new_body} -> {:ok, %{env | body: new_body}}
       {:error, _reason} = error -> error
     end
   end
