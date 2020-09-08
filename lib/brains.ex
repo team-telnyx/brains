@@ -5,8 +5,8 @@ defmodule Brains do
   ## Usage
 
   ```elixir
-  iex> connection = Brains.Connection.new("https://example.com/graph")
-  iex> Brains.query(connection, \"""
+  connection = Brains.Connection.new("https://example.com/graph")
+  Brains.query(connection, \"""
       {
         films {
           title
@@ -25,7 +25,7 @@ defmodule Brains do
   You can also run mutations:
 
   ```elixir
-  iex> Brains.query(connection, \"""
+  Brains.query(connection, \"""
     mutation createUser($name: String!) {
       createUser(name: $name) {
         id
@@ -44,13 +44,19 @@ defmodule Brains do
 
   @type query_string :: String.t()
 
+  @type url :: String.t()
+
   @type headers :: [header]
 
   @type header :: {String.t(), String.t()}
 
   @type options :: [option]
 
-  @type option :: {:operation_name, String.t()} | {:variables, map} | {:headers, headers}
+  @type option ::
+          {:operation_name, String.t()}
+          | {:variables, map}
+          | {:headers, headers}
+          | {:url, url}
 
   @doc """
   Runs a query request to your graphql endpoint.
@@ -122,6 +128,15 @@ defmodule Brains do
           Enum.reduce(headers, request, fn {key, value}, req ->
             Request.add_param(req, :headers, key, value)
           end)
+      end
+
+    request =
+      case Keyword.get(options, :url) do
+        nil ->
+          request
+
+        url ->
+          Request.url(request, url)
       end
 
     connection
