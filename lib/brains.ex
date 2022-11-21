@@ -126,7 +126,7 @@ defmodule Brains do
 
         headers ->
           Enum.reduce(headers, request, fn {key, value}, req ->
-            Request.add_param(req, :headers, key, value)
+            Request.add_param(req, :header, key, value)
           end)
       end
 
